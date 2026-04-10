@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import Setup from './components/Setup';
+import Game from './components/Game';
 
 function App() {
   const [status, setStatus] = useState<'setup' | 'playing' | 'won'>('setup');
@@ -29,7 +30,12 @@ function App() {
       )}
       
       {status === 'playing' && (
-        <></>
+        <Game
+          startPage={startPage}
+          targetPage={targetPage}
+          onWin={handleWin}
+          onRestart={handleRestart}
+        />
       )}
 
       {status === 'won' && (

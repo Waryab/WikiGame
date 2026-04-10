@@ -90,7 +90,7 @@ export default function Setup({ onStart }: SetupProps) {
 
     return (
         <div className="flex sm:items-center justify-center min-h-[80vh] bg-zinc-50">
-            <div className="sm:border-2 border-zinc-200 sm:shadow-xl w-full max-w-2xl sm:rounded-lg bg-white text-center overflow-visible">
+            <div className="sm:border-2 border-zinc-200 sm:shadow-xl w-full max-w-2xl sm:rounded-lg bg-white text-center overflow-visible h-full">
 
                 {/* HEADER */}
                 <div className="bg-zinc-50 border-b border-zinc-200 p-4">
