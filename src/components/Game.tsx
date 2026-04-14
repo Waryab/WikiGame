@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { getPageContent } from "../services/wikipedia";
 import { BiTimer } from "react-icons/bi";
-import { FiMousePointer, FiRotateCcw } from "react-icons/fi";
+import { FiFlag, FiMousePointer, FiRotateCcw } from "react-icons/fi";
 
 interface GameProps {
     startPage: string;
@@ -98,7 +98,58 @@ export default function Game({ startPage, targetPage, onWin, onRestart }: GamePr
                     </button>
                 </div>
             </header>
-            
+
+            <main className="flex-1 flex overflow-hidden relative">
+                <div className="flex-1 overflow-hidden flex flex-col">
+                    <div
+                        className="flex-1 overflow-y-auto"
+                        ref={contentRef}
+                    >
+                        <div
+                            className="mx-auto p-4 md:p-8 wiki-content"
+                            dangerouslySetInnerHTML={{ __html: htmlContent }}
+                        />
+                    </div>
+                </div>
+
+                <aside className="hidden xl:flex w-64 border-l border-zinc-200 flex-col bg-zinc-50/30">
+                    <div className="p-4 border-b border-zinc-200">
+                        <h3 className="text-xs font-bold uppercase tracking-widest text-zinc-500 flex items-center gap-2">
+                            <FiFlag className="w-3 h-3" />
+                            Your Path
+                        </h3>
+                    </div>
+                    <div className="flex-1 overflow-y-auto p-4">
+                        <div className="space-y-4">
+                            {path.map((step, i) => (
+                                <div key={i} className="flex gap-3 items-start">
+                                    <div className="flex flex-col items-center mt-1 shrink-0">
+                                        <div className="w-2 h-2 rounded-full bg-zinc-300" />
+                                        {i < path.length - 1 && <div className="w-px h-8 bg-zinc-200" />}
+                                    </div>
+                                    <span className="text-xs text-zinc-600 leading-tight wrap-break-word">
+                                        {step}
+                                    </span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </aside>
+
+                {isLoading && (
+                    <div className="absolute inset-0 bg-white/80 backdrop-blur-sm flex items-center justify-center z-20">
+                        <div className="flex flex-col items-center gap-4">
+                            <div className="w-8 h-8 border-2 border-zinc-900 border-t-transparent rounded-full animate-spin" />
+                            <p className="text-sm font-medium text-zinc-500 animate-pulse">Fetching Wikipedia...</p>
+                        </div>
+                    </div>
+                )}
+
+            </main>
+
+            <div className="lg:hidden p-2 bg-zinc-900 text-white text-center text-xs font-bold uppercase tracking-widest font-mono">
+                Target: {targetPage}
+            </div>
         </div>
     );
 }
