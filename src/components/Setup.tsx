@@ -92,7 +92,6 @@ export default function Setup({ onStart }: SetupProps) {
         <div className="flex sm:items-center justify-center min-h-[80vh] bg-zinc-50">
             <div className="sm:border-2 border-zinc-200 sm:shadow-xl w-full max-w-2xl sm:rounded-lg bg-white text-center overflow-visible h-full">
 
-                {/* HEADER */}
                 <div className="bg-zinc-50 border-b border-zinc-200 p-4">
                     <h1 className="text-3xl font-bold text-zinc-900">
                         WikiGame
@@ -102,7 +101,6 @@ export default function Setup({ onStart }: SetupProps) {
                     </p>
                 </div>
 
-                {/* SEARCH */}
                 <div className="grid grid-cols-1 md:grid-cols-[1fr,1fr] gap-4 px-4 py-6">
 
                     <SearchSection
@@ -134,7 +132,6 @@ export default function Setup({ onStart }: SetupProps) {
                     />
                 </div>
 
-                {/* BUTTON */}
                 <div className="flex justify-center pb-6">
                     <button
                         onClick={handleStart}
@@ -146,7 +143,6 @@ export default function Setup({ onStart }: SetupProps) {
                     </button>
                 </div>
 
-                {/* FOOTER */}
                 <div className="bg-zinc-50 border-t border-zinc-200 py-4">
                     <p className="text-xs text-zinc-400 italic">
                         Tip: Try "United States" or "Philosophy"

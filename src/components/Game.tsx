@@ -11,10 +11,10 @@ interface GameProps {
 }
 
 export default function Game({ startPage, targetPage, onWin, onRestart }: GameProps) {
-    const [currentTitle, setCurrentTitle] = useState(startPage);
+    const [currentTitle] = useState(startPage);
     const [htmlContent, setHtmlContent] = useState<string>('');
-    const [clicks, setClicks] = useState(0);
-    const [path, setPath] = useState<string[]>([startPage]);
+    const [clicks] = useState(0);
+    const [path] = useState<string[]>([startPage]);
     const [startTime] = useState(Date.now());
     const [elapsedTime, setElapsedTime] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
