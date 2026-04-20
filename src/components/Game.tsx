@@ -11,10 +11,10 @@ interface GameProps {
 }
 
 export default function Game({ startPage, targetPage, onWin, onRestart }: GameProps) {
-    const [currentTitle] = useState(startPage);
+    const [currentTitle, setCurrentTitle] = useState(startPage);
     const [htmlContent, setHtmlContent] = useState<string>('');
-    const [clicks] = useState(0);
-    const [path] = useState<string[]>([startPage]);
+    const [clicks, setClicks] = useState(0);
+    const [path, setPath] = useState<string[]>([startPage]);
     const [startTime] = useState(Date.now());
     const [elapsedTime, setElapsedTime] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
@@ -54,6 +54,33 @@ export default function Game({ startPage, targetPage, onWin, onRestart }: GamePr
         const mins = Math.floor(seconds / 60);
         const secs = seconds % 60;
         return `${mins}:${secs.toString().padStart(2, '0')}`;
+    };
+
+    const handleContentClick = (e: React.MouseEvent) => {
+        const target = e.target as HTMLElement;
+        const anchor = target.closest('a');
+
+        if (anchor) {
+            const href = anchor.getAttribute('href');
+
+            if (href && href.startsWith('#')) {
+                e.preventDefault();
+                const id = href.substring(1);
+                const element = document.getElementById(id);
+                if (element) {
+                    element.scrollIntoView({ behavior: 'smooth' });
+                }
+                return;
+            }
+
+            if (href && href.startsWith('/wiki/') && !href.includes(':')) {
+                e.preventDefault();
+                const newTitle = decodeURIComponent(href.replace('/wiki/', '')).replace(/_/g, ' ');
+                setClicks(prev => prev + 1);
+                setPath(prev => [...prev, newTitle]);
+                setCurrentTitle(newTitle);
+            }
+        }
     };
 
     return (
@@ -107,6 +134,7 @@ export default function Game({ startPage, targetPage, onWin, onRestart }: GamePr
                     >
                         <div
                             className="mx-auto p-4 md:p-8 wiki-content"
+                            onClick={handleContentClick}
                             dangerouslySetInnerHTML={{ __html: htmlContent }}
                         />
                     </div>
