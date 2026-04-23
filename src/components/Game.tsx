@@ -63,17 +63,7 @@ export default function Game({ startPage, targetPage, onWin, onRestart }: GamePr
 
         if (anchor) {
             const href = anchor.getAttribute('href');
-
-            if (href && href.startsWith('#')) {
-                e.preventDefault();
-                const id = href.substring(1);
-                const element = document.getElementById(id);
-                if (element) {
-                    element.scrollIntoView({ behavior: 'smooth' });
-                }
-                return;
-            }
-
+            
             if (href && href.startsWith('/wiki/') && !href.includes(':')) {
                 e.preventDefault();
                 const newTitle = decodeURIComponent(href.replace('/wiki/', '')).replace(/_/g, ' ');

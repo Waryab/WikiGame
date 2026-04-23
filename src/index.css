@@ -1,8 +1,13 @@
 @import "tailwindcss";
 
+button {
+    @apply cursor-pointer;
+}
+
 @layer base {
     .wiki-content {
         line-height: 1.6;
+        position: relative;
 
         a {
             color: #0645ad;
@@ -21,35 +26,36 @@
         }
 
         .toc {
-            float: left;
-            margin: 0 2em 1em 0;
+            display: none;
+        }
+
+        .infobox {
+            float: right;
+            margin: 0 0 1em 1.5em;
             background-color: #f8f9fa;
             border: 1px solid #a2a9b1;
-            padding: 1em;
-            font-size: 90%;
+            padding: 0.2em;
+            font-size: 88%;
+            line-height: 1.5em;
+            width: 22em;
+            border-collapse: separate;
 
-            h2 {
-                font-size: 100%;
-                border: none;
-                margin: 0 0 0.5em 0;
-                padding: 0;
-                font-weight: bold;
+            td,
+            th {
+                margin: 1em;
+                vertical-align: top;
+                text-align: left;
+            }
+
+            img {
+                margin-left: auto;
+                margin-right: auto;
+                display: block;
+            }
+
+            .infobox-caption,
+            .infobox-above {
                 text-align: center;
-            }
-
-            ul {
-                list-style: none;
-                margin: 0;
-                padding: 0;
-            }
-
-            li {
-                margin-bottom: 0.2em;
-            }
-
-            .tocnumber {
-                color: #202122;
-                margin-right: 0.5em;
             }
         }
     }
