@@ -2,11 +2,12 @@ import { useEffect, useRef, useState } from "react";
 import { getPageContent } from "../services/wikipedia";
 import { BiTimer } from "react-icons/bi";
 import { FiFlag, FiMousePointer, FiRotateCcw } from "react-icons/fi";
+import type { GameStats } from "../types";
 
 interface GameProps {
     startPage: string;
     targetPage: string;
-    onWin: (stats: { startTime: number; endTime: number; clicks: number; path: string[] }) => void;
+    onWin: (stats: GameStats) => void;
     onRestart: () => void;
 }
 
