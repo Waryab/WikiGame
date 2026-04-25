@@ -63,7 +63,7 @@ export default function Game({ startPage, targetPage, onWin, onRestart }: GamePr
 
         if (anchor) {
             const href = anchor.getAttribute('href');
-            
+
             if (href && href.startsWith('/wiki/') && !href.includes(':')) {
                 e.preventDefault();
                 const newTitle = decodeURIComponent(href.replace('/wiki/', '')).replace(/_/g, ' ');
@@ -77,11 +77,11 @@ export default function Game({ startPage, targetPage, onWin, onRestart }: GamePr
     return (
         <div className="flex flex-col h-screen max-h-screen overflow-hidden bg-white">
 
-            <header className="flex items-center justify-between px-6 py-4 border-b border-zinc-200 bg-zinc-50/50 backdrop-blur-sm z-10">
-                <div className="flex items-center gap-6">
-                    <div className="flex flex-col">
+            <header className="flex items-center justify-between px-2 py-1 sm:px-6 sm:py-4 border-b border-zinc-200 bg-zinc-50/50 backdrop-blur-sm z-10">
+                <div className="flex items-center gap-3 sm:gap-6 min-w-0 flex-1">
+                    <div className="flex flex-col min-w-0 flex-1">
                         <span className="text-xs font-bold uppercase tracking-widest text-zinc-400">Current Page</span>
-                        <h2 className="text-lg font-bold text-zinc-900 truncate md:max-w-md">
+                        <h2 className="text-lg font-bold text-zinc-900 truncate flex-1 min-w-0">
                             {currentTitle}
                         </h2>
                     </div>
@@ -111,7 +111,7 @@ export default function Game({ startPage, targetPage, onWin, onRestart }: GamePr
                             {targetPage}
                         </div>
                     </div>
-                    <button onClick={onRestart} title="Restart Game" className="p-2 rounded-lg hover:bg-zinc-200">
+                    <button onClick={onRestart} title="Restart Game" className="pl-2 rounded-lg hover:bg-zinc-200">
                         <FiRotateCcw className="w-4 h-4" />
                     </button>
                 </div>
@@ -139,10 +139,10 @@ export default function Game({ startPage, targetPage, onWin, onRestart }: GamePr
                         </h3>
                     </div>
                     <div className="flex-1 overflow-y-auto p-4">
-                        <div className="space-y-4">
+                        <div>
                             {path.map((step, i) => (
-                                <div key={i} className="flex gap-3 items-start">
-                                    <div className="flex flex-col items-center mt-1 shrink-0">
+                                <div key={i} className="flex gap-3">
+                                    <div className="flex flex-col items-center translate-y-1">
                                         <div className="w-2 h-2 rounded-full bg-zinc-300" />
                                         {i < path.length - 1 && <div className="w-px h-8 bg-zinc-200" />}
                                     </div>

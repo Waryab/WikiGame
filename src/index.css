@@ -11,56 +11,122 @@ button {
 
 @layer base {
     .wiki-content {
-        line-height: 1.6;
-        position: relative;
+        @apply max-w-7xl mx-auto relative leading-7;
+
+        p {
+            @apply my-3;
+        }
 
         a {
-            color: #0645ad;
-        }
-
-        h1,
-        h2 {
-            border-bottom: 1px solid #a2a9b1;
-            margin-bottom: 0.25em;
-            padding-top: 0.5em;
-            font-weight: normal;
+            @apply text-blue-800 hover:underline;
         }
 
         h2 {
-            font-size: 1.5em;
+            @apply border-b border-gray-300 mb-1 pt-2 font-bold text-2xl pb-1 overflow-hidden;
         }
 
-        .toc {
-            display: none;
+        h3 {
+            @apply mt-4 mb-2 font-bold text-lg;
+        }
+
+        h4 {
+            @apply font-bold;
+        }
+
+        ul {
+            @apply my-3;
+        }
+
+        li {
+            @apply flex;
+        }
+
+        li::before {
+            @apply content-['•'] text-zinc-800 mr-2 text-lg;
+        }
+
+        .portalbox {
+            @apply pointer-events-none;
+        }
+
+        .hatnote,
+        .navigation-not-searchable {
+            @apply mb-4 text-sm bg-zinc-50 border-t border-zinc-200;
+        }
+
+        .tright {
+            @apply float-right ml-4 my-2;
+        }
+
+        .thumbcaption {
+            @apply text-xs
+        }
+
+        .toc,
+        .box-Multiple_issues,
+        .lazy-image-placeholder {
+            @apply hidden;
+        }
+
+        .mw-file-element,
+        .mw-file-description {
+            @apply pointer-events-none;
+        }
+
+        figcaption {
+            @apply text-center text-xs text-zinc-500 table-caption caption-bottom;
+        }
+
+        figure {
+            @apply sm:float-right mx-auto sm:ml-6 my-4 max-w-md table clear-right;
+        }
+
+        .wikitable {
+            @apply border-collapse border border-zinc-300 my-4 w-full;
+
+            th,
+            td {
+                @apply border border-zinc-300 p-2;
+            }
+
+            th {
+                @apply bg-zinc-200 font-bold;
+            }
         }
 
         .infobox {
-            float: right;
-            margin: 0 0 1em 1.5em;
-            background-color: #f8f9fa;
-            border: 1px solid #a2a9b1;
-            padding: 0.2em;
-            font-size: 88%;
-            line-height: 1.5em;
-            width: 22em;
-            border-collapse: separate;
+            @apply float-right ml-6 bg-zinc-50 border border-zinc-200 text-sm leading-6 border-collapse clear-right;
+            @apply w-full sm:w-88;
+
+            .infobox-title {
+                @apply bg-zinc-200 font-bold text-center text-lg;
+            }
+
+            tbody,
+            tr {
+                @apply border border-inherit;
+            }
 
             td,
             th {
-                margin: 1em;
-                vertical-align: top;
-                text-align: left;
+                @apply p-1 align-top;
             }
 
             img {
-                margin-left: auto;
-                margin-right: auto;
-                display: block;
+                @apply mx-auto block;
             }
 
             .infobox-caption,
             .infobox-above {
-                text-align: center;
+                @apply text-center;
+            }
+
+            .collapsible-list ul {
+                @apply pl-4;
+            }
+
+            .infobox-navbar {
+                @apply hidden;
             }
         }
     }

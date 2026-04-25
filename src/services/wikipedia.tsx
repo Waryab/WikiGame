@@ -56,13 +56,42 @@ export async function getPageContent(title: string): Promise<WikipediaPageConten
 
         return {
             title: data.parse.title,
-            html: data.parse.text['*'].replace(/src="\/\//g, 'src="https://'),
+            html: await processHtml(data.parse.text['*']),
             links: data.parse.links.map((l: any) => l['*']),
         };
     } catch (error) {
         console.error('Error fetching Wikipedia page:', error);
         return null;
     }
+}
+
+async function processHtml(html: string): Promise<string> {
+    let finalHtml = html.replace(/src="\/\//g, 'src="https://');
+
+    try {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(finalHtml, 'text/html');
+
+        doc.querySelectorAll('noscript').forEach(noscript => {
+            const temp = parser.parseFromString(noscript.innerHTML, 'text/html');
+            const img = temp.querySelector('img');
+            if (img) {
+                noscript.replaceWith(img);
+            }
+        });
+
+        const externalLinks = doc.querySelectorAll('a.external');
+        externalLinks.forEach(link => {
+            const text = link.textContent || '';
+            link.replaceWith(doc.createTextNode(text));
+        });
+
+        finalHtml = doc.body.innerHTML;
+    } catch (error) {
+        console.error('Error processing HTML content:', error);
+    }
+
+    return finalHtml;
 }
 
 export async function validatePage(title: string): Promise<string | null> {
