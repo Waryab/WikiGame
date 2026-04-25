@@ -4,6 +4,11 @@ button {
     @apply cursor-pointer;
 }
 
+#main {
+    background: url(assets/wikipedia-logo.svg) no-repeat center center;
+    background-size: cover;
+}
+
 @layer base {
     .wiki-content {
         line-height: 1.6;

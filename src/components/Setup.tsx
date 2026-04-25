@@ -106,8 +106,8 @@ export default function Setup({ onStart }: SetupProps) {
     };
 
     return (
-        <div className="flex sm:items-center justify-center h-screen bg-zinc-50">
-            <div className="sm:rounded-xl sm:border-2 border-zinc-200 sm:shadow-xl w-full max-w-2xl bg-white text-center">
+        <div className="flex sm:items-center justify-center h-screen sm:bg-zinc-50/95 backdrop-blur-xs">
+            <div className="sm:rounded-xl sm:border-2 border-zinc-200 sm:shadow-xl w-full max-w-2xl bg-white/95 sm:bg-white text-center flex flex-col backdrop-blur-xs">
 
                 <div className="bg-zinc-50 border-b border-zinc-200 p-4 rounded-t-xl">
                     <h1 className="text-3xl font-bold text-zinc-900">
@@ -118,7 +118,7 @@ export default function Setup({ onStart }: SetupProps) {
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-[1fr,1fr] gap-4 px-4 py-6">
+                <div className="flex flex-col gap-4 px-4 py-6 grow justify-center">
 
                     <SearchSection
                         label="Start Page"
@@ -159,7 +159,7 @@ export default function Setup({ onStart }: SetupProps) {
                     <button
                         onClick={handleStart}
                         disabled={!selectedStart || !selectedTarget || isLoading}
-                        className="flex items-center gap-2 px-4 py-2 rounded-lg bg-zinc-900 text-white hover:bg-zinc-800 disabled:opacity-50"
+                        className="flex items-center gap-2 px-4 py-2 rounded-lg bg-zinc-900 text-white hover:bg-zinc-800 disabled:bg-zinc-400"
                     >
                         <FiPlay className="w-4 h-4" />
                         {isLoading ? "Loading..." : "Start Race"}
@@ -212,7 +212,7 @@ function SearchSection({
                 <button
                     onClick={onRandomize}
                     disabled={isLoading}
-                    className="border border-zinc-300 rounded-xl p-2 hover:bg-zinc-100"
+                    className="border border-zinc-300 rounded-xl p-2 bg-white hover:bg-zinc-100"
                     title={randomizeTitle}
                 >
                     <BiShuffle className="size-4" />
@@ -244,7 +244,7 @@ const SearchBar = React.memo(
                 <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" />
                 <input
                     value={value}
-                    className="pl-9 h-9 w-full rounded-lg border border-zinc-300 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-zinc-300"
+                    className="pl-9 h-9 w-full rounded-lg border border-zinc-300 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-zinc-300 bg-white"
                     {...props}
                 />
             </div>

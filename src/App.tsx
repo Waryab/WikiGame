@@ -29,7 +29,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-zinc-50 font-sans text-zinc-900 selection:bg-zinc-900 selection:text-white">
+    <div className="min-h-screen font-sans text-zinc-900 selection:bg-zinc-900 selection:text-white" id='main'>
       {status === 'setup' && (
         <Setup onStart={handleStartGame} />
       )}
