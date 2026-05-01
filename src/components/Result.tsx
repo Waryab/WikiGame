@@ -18,9 +18,9 @@ export default function Results({ startPage, targetPage, stats, onRestart }: Res
     };
 
     return (
-    <div className="flex items-center justify-center h-screen p-4">
+    <div className="flex items-center justify-center h-screen sm:p-4 sm:bg-zinc-50/95 backdrop-blur-xs">
       <div className="w-full max-w-2xl">
-        <div className="border-2 border-zinc-200 shadow-2xl overflow-hidden rounded-lg">
+        <div className="border-2 border-zinc-200 shadow-2xl overflow-hidden sm:rounded-lg h-screen sm:h-full flex flex-col">
           <div className="text-center bg-zinc-50 border-b border-zinc-200 py-8">
             <div className="text-4xl font-black tracking-tighter text-zinc-900 uppercase italic">
               Race Completed!
@@ -30,7 +30,7 @@ export default function Results({ startPage, targetPage, stats, onRestart }: Res
             </div>
           </div>
 
-          <div className="space-y-8 px-4 py-6 bg-white">
+          <div className="space-y-8 px-4 py-6 bg-white/95 sm:bg-white grow">
             <div className="grid grid-cols-2 gap-4">
               <div className="bg-zinc-50 p-6 rounded-2xl border border-zinc-100 flex flex-col items-center text-center">
                 <BiTimer className="w-6 h-6 text-zinc-400 mb-2" />
@@ -53,7 +53,7 @@ export default function Results({ startPage, targetPage, stats, onRestart }: Res
                 <BiHistory className="w-4 h-4" />
                 Your Path
               </h3>
-              <div className="h-48 rounded-xl border border-zinc-100 bg-zinc-50/50 p-4">
+              <div className="h-48 rounded-xl border border-zinc-100 bg-zinc-50/50 p-4 overflow-y-auto">
                 <div>
                   {stats.path.map((step, i) => (
                     <div key={i} className="flex gap-3">
