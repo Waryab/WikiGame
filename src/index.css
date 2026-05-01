@@ -11,7 +11,7 @@ button {
 
 @layer base {
     .wiki-content {
-        @apply max-w-7xl mx-auto relative leading-7;
+        @apply overflow-x-hidden max-w-7xl mx-auto relative leading-7;
 
         p {
             @apply my-3;
@@ -38,15 +38,32 @@ button {
         }
 
         li {
-            @apply flex;
+            @apply flex gap-1;
+            counter-increment: item;
         }
 
         li::before {
-            @apply content-['•'] text-zinc-800 mr-2 text-lg;
+            @apply content-['•'] text-zinc-800 text-lg;
         }
 
-        .portalbox {
-            @apply pointer-events-none;
+        li:has(ul) {
+            display: list-item;
+
+            &::before {
+                @apply mr-1;
+            }
+
+            li {
+                @apply ml-4;
+            }
+
+            li::before {
+                @apply content-['-'];
+            }
+
+            ul {
+                @apply m-0;
+            }
         }
 
         .hatnote,
@@ -64,12 +81,17 @@ button {
 
         .toc,
         .box-Multiple_issues,
-        .lazy-image-placeholder {
+        .lazy-image-placeholderm,
+        .mw-empty-elt,
+        .ambox {
             @apply hidden;
         }
 
         .mw-file-element,
-        .mw-file-description {
+        .mw-file-description,
+        .portalbox,
+        .plainlinks,
+        .external {
             @apply pointer-events-none;
         }
 
@@ -79,6 +101,36 @@ button {
 
         figure {
             @apply sm:float-right mx-auto sm:ml-6 my-4 max-w-md table clear-right;
+        }
+
+        table:not(.infobox, .ambox) {
+            @apply block sm:table overflow-x-auto border-none max-w-full;
+
+            td[style*="text-align:right"] {
+
+                li,
+                div,
+                span {
+                    @apply flex gap-1 items-center justify-end;
+                }
+            }
+
+            td[style*="text-align:center"] {
+
+                li,
+                div,
+                span {
+                    @apply flex gap-1 items-center justify-center;
+                }
+            }
+
+            li span {
+                @apply flex gap-1 items-center;
+            }
+
+            li::before {
+                @apply hidden;
+            }
         }
 
         .wikitable {
@@ -128,6 +180,24 @@ button {
             .infobox-navbar {
                 @apply hidden;
             }
+
+            table {
+                @apply table;
+            }
+        }
+
+        .mw-references-wrap {
+            @apply sm:columns-2;
+        }
+
+        .references li::before {
+            @apply text-base;
+            content: counter(item) ".";
+        }
+
+        .references[data-mw-group="lower-alpha"] li::before {
+            @apply text-base;
+            content: counter(item, lower-alpha) ". ";
         }
     }
 }
