@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { getPageContent } from "../services/wikipedia";
+import { getPageContent, getPageSummary } from "../services/wikipedia";
 import { BiTimer } from "react-icons/bi";
 import { FiFlag, FiMousePointer, FiRotateCcw } from "react-icons/fi";
 import type { GameStats } from "../types";
@@ -11,6 +11,14 @@ interface GameProps {
     onRestart: () => void;
 }
 
+interface PreviewData {
+    title: string;
+    extract: string;
+    thumbnail?: string;
+    x: number;
+    y: number;
+}
+
 export default function Game({ startPage, targetPage, onWin, onRestart }: GameProps) {
     const [currentTitle, setCurrentTitle] = useState(startPage);
     const [htmlContent, setHtmlContent] = useState<string>('');
@@ -20,6 +28,8 @@ export default function Game({ startPage, targetPage, onWin, onRestart }: GamePr
     const [elapsedTime, setElapsedTime] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
     const contentRef = useRef<HTMLDivElement>(null);
+    const hoverTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const [preview, setPreview] = useState<PreviewData | null>(null);
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -74,6 +84,39 @@ export default function Game({ startPage, targetPage, onWin, onRestart }: GamePr
         }
     };
 
+    const handleMouseEnter = (e: React.MouseEvent) => {
+        const target = e.target as HTMLElement;
+        const anchor = target.closest('a');
+
+        if (anchor) {
+            const href = anchor.getAttribute('href');
+            if (href && href.startsWith('/wiki/') && !href.includes(':')) {
+                const title = decodeURIComponent(href.replace('/wiki/', '')).replace(/_/g, ' ');
+                const rect = anchor.getBoundingClientRect();
+
+                if (hoverTimeout.current) clearTimeout(hoverTimeout.current);
+
+                hoverTimeout.current = setTimeout(async () => {
+                    const summary = await getPageSummary(title);
+                    if (summary) {
+                        setPreview({
+                            title,
+                            extract: summary.extract,
+                            thumbnail: summary.thumbnail,
+                            x: rect.left,
+                            y: rect.bottom + window.scrollY
+                        });
+                    }
+                }, 500);
+            }
+        }
+    };
+
+    const handleMouseLeave = () => {
+        if (hoverTimeout.current) clearTimeout(hoverTimeout.current);
+        setPreview(null);
+    };
+
     return (
         <div className="flex flex-col h-screen max-h-screen overflow-hidden bg-white">
 
@@ -126,6 +169,8 @@ export default function Game({ startPage, targetPage, onWin, onRestart }: GamePr
                         <div
                             className="mx-auto p-4 md:p-8 wiki-content"
                             onClick={handleContentClick}
+                            onMouseOver={handleMouseEnter}
+                            onMouseOut={handleMouseLeave}
                             dangerouslySetInnerHTML={{ __html: htmlContent }}
                         />
                     </div>
@@ -154,6 +199,35 @@ export default function Game({ startPage, targetPage, onWin, onRestart }: GamePr
                         </div>
                     </div>
                 </aside>
+
+                {preview && (
+                    <div
+                        style={{
+                            position: 'fixed',
+                            left: Math.min(preview.x, window.innerWidth - 320),
+                            top: Math.min(preview.y - window.scrollY, window.innerHeight - 200),
+                            zIndex: 50
+                        }}
+                        className="w-80 bg-white border border-zinc-200 rounded-xl shadow-2xl overflow-hidden pointer-events-none"
+                    >
+                        {preview.thumbnail && (
+                            <div className="h-32 overflow-hidden bg-zinc-100">
+                                <img
+                                    src={preview.thumbnail}
+                                    alt={preview.title}
+                                    className="w-full h-full object-cover"
+                                    referrerPolicy="no-referrer"
+                                />
+                            </div>
+                        )}
+                        <div className="p-4 space-y-2">
+                            <h4 className="font-bold text-zinc-900">{preview.title}</h4>
+                            <p className="text-xs text-zinc-600 line-clamp-4 leading-relaxed">
+                                {preview.extract}
+                            </p>
+                        </div>
+                    </div>
+                )}
 
                 {isLoading && (
                     <div className="absolute inset-0 bg-white/80 backdrop-blur-sm flex items-center justify-center z-20">

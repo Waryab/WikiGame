@@ -86,6 +86,16 @@ async function processHtml(html: string): Promise<string> {
             link.replaceWith(doc.createTextNode(text));
         });
 
+        doc.querySelectorAll('[title]').forEach(elem => {
+            elem.removeAttribute('title');
+        });
+
+        const specialLinks = doc.querySelectorAll('a[href^="/wiki/Special:"]');
+        specialLinks.forEach(link => {
+            const text = link.textContent || '';
+            link.replaceWith(doc.createTextNode(text));
+        });
+
         finalHtml = doc.body.innerHTML;
     } catch (error) {
         console.error('Error processing HTML content:', error);
@@ -139,5 +149,39 @@ export async function getRandomPage(): Promise<string> {
     } catch (error) {
         console.error('Error getting random page:', error);
         return 'Wikipedia';
+    }
+}
+
+export async function getPageSummary(title: string): Promise<{ extract: string; thumbnail?: string } | null> {
+    const params = new URLSearchParams({
+        action: 'query',
+        titles: title,
+        prop: 'extracts|pageimages',
+        exintro: '1',
+        explaintext: '1',
+        exchars: '200',
+        piprop: 'thumbnail',
+        pithumbsize: '200',
+        format: 'json',
+        origin: '*',
+        redirects: '1',
+    });
+
+    try {
+        const response = await fetch(`${WIKIPEDIA_API_URL}?${params.toString()}`);
+        const data = await response.json();
+        const pages = data.query.pages;
+        const pageId = Object.keys(pages)[0];
+
+        if (pageId === '-1') return null;
+
+        const page = pages[pageId];
+        return {
+            extract: page.extract || '',
+            thumbnail: page.thumbnail?.source,
+        };
+    } catch (error) {
+        console.error('Error fetching Wikipedia summary:', error);
+        return null;
     }
 }
