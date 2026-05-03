@@ -96,6 +96,10 @@ async function processHtml(html: string): Promise<string> {
             link.replaceWith(doc.createTextNode(text));
         });
 
+        doc.querySelectorAll('th[rowspan]').forEach(th => {
+            th.removeAttribute('rowspan');
+        });
+
         finalHtml = doc.body.innerHTML;
     } catch (error) {
         console.error('Error processing HTML content:', error);

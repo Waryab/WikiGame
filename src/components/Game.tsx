@@ -73,14 +73,20 @@ export default function Game({ startPage, targetPage, onWin, onRestart }: GamePr
 
         if (anchor) {
             const href = anchor.getAttribute('href');
-
-            if (href && href.startsWith('/wiki/') && !href.includes(':')) {
+            if (
+                !href ||
+                !href.startsWith('/wiki/') ||
+                href.includes(':') ||
+                anchor.classList.contains('new')
+            ) {
                 e.preventDefault();
-                const newTitle = decodeURIComponent(href.replace('/wiki/', '')).replace(/_/g, ' ');
-                setClicks(prev => prev + 1);
-                setPath(prev => [...prev, newTitle]);
-                setCurrentTitle(newTitle);
+                return;
             }
+            e.preventDefault();
+            const newTitle = decodeURIComponent(href.replace('/wiki/', '')).replace(/_/g, ' ');
+            setClicks(prev => prev + 1);
+            setPath(prev => [...prev, newTitle]);
+            setCurrentTitle(newTitle);
         }
     };
 

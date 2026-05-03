@@ -21,6 +21,10 @@ button {
             @apply text-blue-800 hover:underline;
         }
 
+        a>* {
+            @apply inline;
+        }
+
         h2 {
             @apply border-b border-gray-300 mb-1 pt-2 font-bold text-2xl pb-1 overflow-hidden;
         }
@@ -33,42 +37,31 @@ button {
             @apply font-bold;
         }
 
+
         ul {
-            @apply my-3;
+            @apply ml-6 list-disc list-item;
         }
 
-        li {
-            @apply flex gap-1;
-            counter-increment: item;
+        .plainlist ul, .plainlist li {
+            list-style: none !important;
+            margin-left: 0 !important;
+            padding-left: 0 !important;
         }
 
-        li::before {
-            @apply content-['•'] text-zinc-800 text-lg;
+        li>* {
+            @apply inline;
         }
 
         li:has(ul) {
-            display: list-item;
-
-            &::before {
-                @apply mr-1;
-            }
-
-            li {
+            ul li {
                 @apply ml-4;
-            }
-
-            li::before {
-                @apply content-['-'];
-            }
-
-            ul {
-                @apply m-0;
+                list-style-type: circle;
             }
         }
 
         .hatnote,
         .navigation-not-searchable {
-            @apply mb-4 text-sm bg-zinc-50 border-t border-zinc-200;
+            @apply mb-4 text-sm bg-zinc-50 border-t border-zinc-200 overflow-hidden;
         }
 
         .tright {
@@ -134,7 +127,7 @@ button {
         }
 
         .wikitable {
-            @apply border-collapse border border-zinc-300 my-4 w-full;
+            @apply border-collapse border border-zinc-300 my-4;
 
             th,
             td {
@@ -190,14 +183,13 @@ button {
             @apply sm:columns-2;
         }
 
-        .references li::before {
-            @apply text-base;
-            content: counter(item) ".";
+        .references li {
+            @apply list-decimal ml-6 list-item;
         }
 
-        .references[data-mw-group="lower-alpha"] li::before {
-            @apply text-base;
-            content: counter(item, lower-alpha) ". ";
+        .references[data-mw-group="lower-alpha"] li {
+            @apply ml-6 list-item;
+            list-style-type: lower-alpha;
         }
     }
 }
